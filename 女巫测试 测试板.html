@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乌鸫组 · 魔力归属测试</title>
+    <style>
+        :root {
+            --bg-body: #e8d5a3;
+            --surface: #ffefb0;
+            --text-main: #5a4a3a;
+            --text-heading: #848d31;
+            --accent: #848d31;
+            --border-subtle: #c4a97d;
+            --shadow: 0 8px 24px rgba(100, 70, 20, 0.12);
+            --font-serif: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', 'Songti SC', 'Georgia', serif;
+            --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            background-color: var(--bg-body);
+            background-image: radial-gradient(ellipse at 50% 20%, rgba(255,245,220,0.4) 0%, transparent 60%);
+            font-family: var(--font-serif);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px 20px 60px;
+            line-height: 1.7;
+            letter-spacing: 0.03em;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* 装饰边线 */
+        .ornament-line {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            margin: 0 auto 8px;
+            opacity: 0.6;
+        }
+
+        /* ===== 封面卡片 ===== */
+        .cover-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 48px 32px 40px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(132,141,49,0.15);
+            position: relative;
+        }
+        .cover-card::before {
+            content: '';
+            position: absolute;
+            top: 16px; left: 16px; right: 16px; bottom: 16px;
+            border: 1px dashed rgba(132,141,49,0.25);
+            border-radius: 18px;
+            pointer-events: none;
+        }
+        .cover-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 12px;
+            object-fit: contain;
+            display: block;
+            opacity: 0.9;
+        }
+        .cover-meta {
+            font-size: 0.8rem;
+            color: var(--text-main);
+            opacity: 0.8;
+            letter-spacing: 0.06em;
+            margin-bottom: 4px;
+            font-family: var(--font-sans);
+        }
+        .cover-question {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin: 24px 0 20px;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .name-input-wrap {
+            margin-bottom: 24px;
+        }
+        .name-input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            letter-spacing: 0.08em;
+        }
+        .name-input {
+            width: 240px;
+            padding: 12px 20px;
+            border: 2px solid var(--border-subtle);
+            border-radius: 30px;
+            background: rgba(255,255,240,0.7);
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            text-align: center;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s;
+        }
+        .name-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(132,141,49,0.1);
+        }
+
+        .btn-start {
+            display: inline-block;
+            padding: 14px 44px;
+            border-radius: 40px;
+            cursor: pointer;
+            background: var(--accent);
+            color: #ffefb0;
+            border: none;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            letter-spacing: 0.12em;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(132,141,49,0.3);
+            transition: all 0.25s;
+        }
+        .btn-start:hover {
+            background: #6b7328;
+            box-shadow: 0 6px 24px rgba(132,141,49,0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ===== 测试头部 ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .geometric-moon {
+            display: block;
+            margin: 0 auto 12px;
+            width: 44px;
+            height: 44px;
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%,100%{ transform:translateY(0); }
+            50%{ transform:translateY(-8px); }
+        }
+        .geometric-moon .moon-diamond {
+            position: absolute;
+            top:50%; left:50%;
+            transform: translate(-50%,-50%) rotate(45deg);
+            width: 22px; height: 22px;
+            border: 2px solid var(--accent);
+            background: transparent;
+            box-shadow: 0 0 10px rgba(132,141,49,0.2);
+        }
+        .geometric-moon .moon-ring {
+            position: absolute;
+            top:50%; left:50%;
+            transform: translate(-50%,-50%);
+            width: 36px; height: 36px;
+            border: 1.5px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+        .geometric-moon .moon-dot {
+            position: absolute;
+            top:50%; left:50%;
+            transform: translate(-50%,-50%);
+            width: 4px; height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .progress-bar-outer {
+            flex:1;
+            height: 4px;
+            background: rgba(0,0,0,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-bar-inner {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 10px;
+            transition: width 0.4s;
+            width: 0%;
+        }
+        .progress-text {
+            font-size: 0.8rem;
+            color: var(--text-main);
+            font-family: var(--font-sans);
+        }
+
+        /* ===== 题目卡片 ===== */
+        .question-card {
+            background: #fffef5;
+            border-radius: 20px;
+            padding: 32px 28px 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(132,141,49,0.12);
+            text-align: center;
+        }
+        .question-number {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+            font-family: var(--font-sans);
+        }
+        .question-text {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 480px) {
+            .options-grid { grid-template-columns: 1fr; }
+        }
+        .option-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 18px 12px;
+            background: #fbf7e9;
+            border: 1px solid #e0d3b0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: var(--font-serif);
+            font-size: 0.95rem;
+            color: var(--text-main);
+            letter-spacing: 0.03em;
+            min-height: 80px;
+        }
+        .option-btn:hover {
+            background: #f2ecd6;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .option-btn.selected {
+            background: #e8e0c0;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(132,141,49,0.2);
+            color: #3a2e1e;
+        }
+        .option-icon {
+            width: 28px;
+            height: 28px;
+            margin-right: 10px;
+            object-fit: contain;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .nav-btn {
+            padding: 10px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            letter-spacing: 0.06em;
+            border: 1px solid var(--border-subtle);
+            background: transparent;
+            color: var(--text-main);
+            transition: 0.2s;
+        }
+        .nav-btn:disabled { opacity: 0.4; cursor: default; }
+        .nav-btn.primary {
+            background: var(--accent);
+            color: #ffefb0;
+            border: none;
+            font-weight: 600;
+        }
+        .nav-btn.primary:hover {
+            background: #6b7328;
+        }
+
+        .dots-indicator {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 14px;
+        }
+        .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #d3c5a0;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .dot.active { background: var(--accent); transform: scale(1.2); }
+        .dot.answered { background: #b0a070; }
+
+        /* 过渡页 */
+        .transition-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 56px 32px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .transition-icon {
+            font-size: 56px;
+            margin-bottom: 12px;
+            animation: breathe 3s infinite;
+        }
+        @keyframes breathe {
+            0%,100%{ opacity:0.6; transform:scale(1); }
+            50%{ opacity:1; transform:scale(1.1); }
+        }
+        .transition-text {
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            letter-spacing: 0.08em;
+        }
+        .transition-countdown {
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-top: 8px;
+        }
+
+        /* ===== 结果羊皮纸 ===== */
+        .result-scroll { display: flex; flex-direction: column; gap: 20px; }
+        .result-panel {
+            background: linear-gradient(180deg, #fdf8ed, #f5edd8);
+            border: 2px solid #c4a97d;
+            border-radius: 10px;
+            padding: 28px 22px;
+            color: #3e3024;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(180,150,100,0.03) 4px),
+                              repeating-linear-gradient(90deg, transparent, transparent 5px, rgba(180,150,100,0.02) 6px);
+        }
+        /* 装饰形状容器 */
+        .panel-decoration {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.25;
+        }
+        .result-panel .panel-title {
+            font-size: 1.4rem;
+            color: #4a3820;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+        .panel-logo-placeholder {
+            width: 100px;
+            height: 100px;
+            margin: 8px auto;
+            border: 2px dashed #c4a97d;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255,255,240,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .panel-logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .deity-img-full {
+            width: 140px;
+            margin: 8px auto;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+        }
+        .restart-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 28px;
+            border-radius: 25px;
+            border: 1px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            font-family: var(--font-sans);
+            letter-spacing: 0.08em;
+            cursor: pointer;
+        }
+
+        @keyframes shake {
+            0%,100%{ transform:translateX(0); }
+            20%{ transform:translateX(-6px); }
+            40%{ transform:translateX(6px); }
+            60%{ transform:translateX(-4px); }
+            80%{ transform:translateX(4px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container" id="mainContainer"></div>
+
+    <script>
+        (function() {
+            // 题目数据
+            const questions = [
+                { id:1, text:'周末的下午，没有安排，你会做什么？', options:[
+                    {letter:'A',text:'去公园或山间走走',realm:'forest'},
+                    {letter:'B',text:'逛街角小店，淘有趣小玩意',realm:'desert'},
+                    {letter:'C',text:'窝在家里泡杯热饮打游戏',realm:'snow'},
+                    {letter:'D',text:'约朋友三五成群出去玩',realm:'ocean'}
+                ]},
+                { id:2, text:'朋友心情低落，你的第一反应是？', options:[
+                    {letter:'A',text:'带她出去散心，呼吸新鲜空气',realm:'forest'},
+                    {letter:'B',text:'用热情感染她转移注意力，说些新鲜事',realm:'desert'},
+                    {letter:'C',text:'安静陪着，递一杯热茶',realm:'snow'},
+                    {letter:'D',text:'坐旁边听她慢慢说，不急不催',realm:'ocean'}
+                ]},
+                { id:3, text:'理想住所最不能缺少什么？', options:[
+                    {letter:'A',text:'盆栽、毛孩子们和充足自然光',realm:'forest'},
+                    {letter:'B',text:'色彩明快的装饰和开阔空间',realm:'desert'},
+                    {letter:'C',text:'温暖舒适的角落和柔软毯子',realm:'snow'},
+                    {letter:'D',text:'特意的摆放角落展现主人的趣味',realm:'ocean'}
+                ]},
+                { id:4, text:'挑选礼物时更看重什么？', options:[
+                    {letter:'A',text:'实用、来自天然材质',realm:'forest'},
+                    {letter:'B',text:'独特、有故事感的小物件',realm:'desert'},
+                    {letter:'C',text:'温暖、让人感到被关怀',realm:'snow'},
+                    {letter:'D',text:'有美感、线条流畅的设计',realm:'ocean'}
+                ]},
+                { id:5, text:'什么气味最让你放松？', options:[
+                    {letter:'A',text:'雨水、柑橘、发霉的木头',realm:'forest'},
+                    {letter:'B',text:'蜂蜜、糖、燃烧的香烛',realm:'desert'},
+                    {letter:'C',text:'小溪、冰块、动物皮毛特殊的味道',realm:'snow'},
+                    {letter:'D',text:'海苔、铁锈、新打开的松节油',realm:'ocean'}
+                ]},
+                { id:6, text:'你更喜欢收集什么？', options:[
+                    {letter:'A',text:'植物切片、毛茸茸们、纸袋',realm:'forest'},
+                    {letter:'B',text:'异域饰品、糖果（纸）、杂志剪贴',realm:'desert'},
+                    {letter:'C',text:'笔芯、围巾、邮票',realm:'snow'},
+                    {letter:'D',text:'贝壳、实体书、铅杯',realm:'ocean'}
+                ]},
+                { id:7, text:'学一项新技能，你会选？', options:[
+                    {letter:'A',text:'园艺、草药识别或自然观察',realm:'forest'},
+                    {letter:'B',text:'游泳、观星占卜或潜水',realm:'ocean'},
+                    {letter:'C',text:'烘焙、手工皂或针织',realm:'snow'},
+                    {letter:'D',text:'编织、陶艺或某种乐器',realm:'desert'}
+                ]},
+                { id:8, text:'一群人在一起你通常是什么角色？', options:[
+                    {letter:'A',text:'安静观察，偶尔说几句有分量的话',realm:'forest'},
+                    {letter:'B',text:'随和跟着节奏，气氛组',realm:'ocean'},
+                    {letter:'C',text:'默默照顾大家，确保每个人被关照',realm:'snow'},
+                    {letter:'D',text:'活跃气氛，讲趣事让大家开心',realm:'desert'}
+                ]},
+                { id:9, text:'你更相信什么？', options:[
+                    {letter:'A',text:'人类的至部智慧就包含在这四个字里面“等待”和“希望”',realm:'forest'},
+                    {letter:'B',text:'但远山长、云山乱、晓山青',realm:'snow'},
+                    {letter:'C',text:'恐惧是生物的本能，勇气是人类的赞歌',realm:'desert'},
+                    {letter:'D',text:'无论风暴将我带到什么样的岸边，我都将以主人的身份上岸。',realm:'ocean'}
+                ]},
+                { id:10, text:'面对困难倾向于怎么做？', options:[
+                    {letter:'A',text:'退一步海阔天空',realm:'forest'},
+                    {letter:'B',text:'一定还有别的办法绕开它',realm:'ocean'},
+                    {letter:'C',text:'再等一等，万一有转机',realm:'snow'},
+                    {letter:'D',text:'我能行我可以再试试',realm:'desert'}
+                ]},
+                { id:11, text:'最喜欢什么样的光线？', options:[
+                    {letter:'A',text:'透过树叶洒下的斑驳光影或者月光',realm:'forest'},
+                    {letter:'B',text:'没有遮蔽的明亮耀眼的阳光',realm:'desert'},
+                    {letter:'C',text:'桌子上的小灯或者温暖的炉火（或者电热炉）',realm:'snow'},
+                    {letter:'D',text:'水面反射的粼粼波光或者玻璃上跃动的光影',realm:'ocean'}
+                ]},
+                { id:12, text:'什么类型的音乐最能打动你？', options:[
+                    {letter:'A',text:'要听现实中的氛围（比如自然白噪音、咖啡馆图书馆场景）',realm:'forest'},
+                    {letter:'B',text:'要随着音乐摇起来（比如伦巴、phonk、雷鬼）',realm:'desert'},
+                    {letter:'C',text:'要释放激情（比如重金属、后摇、交响乐）',realm:'snow'},
+                    {letter:'D',text:'要慢慢思考沉入情绪（比如慢歌、术力口）',realm:'ocean'}
+                ]},
+                { id:13, text:'你性格中最大的弱点可能是？', options:[
+                    {letter:'A',text:'有时过于心软，总想着万一呢？',realm:'forest'},
+                    {letter:'B',text:'情绪化，有时已经忘了为什么生气',realm:'desert'},
+                    {letter:'C',text:'过于理性，说话太直接',realm:'snow'},
+                    {letter:'D',text:'犟种，有强烈胜负欲',realm:'ocean'}
+                ]},
+                { id:14, text:'可以选一个小小超能力？', options:[
+                    {letter:'A',text:'兽语、变形术',realm:'forest'},
+                    {letter:'B',text:'和死去的人对话、肉体强化',realm:'desert'},
+                    {letter:'C',text:'隐身、穿墙',realm:'snow'},
+                    {letter:'D',text:'水下呼吸、短暂预知',realm:'ocean'}
+                ]},
+                { id:15, text:'你觉得"魔法"的本质更像什么？', options:[
+                    {letter:'A',text:'巨大生长的树，有很多分叉',realm:'forest'},
+                    {letter:'B',text:'永不熄灭的火焰，转化着物质和现象',realm:'desert'},
+                    {letter:'C',text:'人类的情感和愿望集合在一起',realm:'snow'},
+                    {letter:'D',text:'客观流淌在空气里的讯息，有些人/有的时候能接收到',realm:'ocean'}
+                ]},
+                { id:16, text:'最后，想象你有一把可以带你去任何地方的扫帚，它是？', options:[
+                    {letter:'A',text:'会呼吸会说话的活体柳枝扫帚，能带别的乘客',realm:'forest'},
+                    {letter:'B',text:'挂着银铃和其他亮晶晶的美丽扫帚，非常迅捷',realm:'desert'},
+                    {letter:'C',text:'装饰着黄铜和流苏的胡桃木朴素扫帚，非常平稳',realm:'snow'},
+                    {letter:'D',text:'我寻思为什么非得是扫帚！我要别的能飞的',realm:'ocean'}
+                ]}
+            ];
+
+            const realmData = {
+                forest: {
+                    name: '森林', subtitle: '林深处',
+                    description: '你与大地和植物有着天然的连接。你懂得等待的智慧，知道一切都在自己的季节里生长。你的魔法藏在泥土里、叶脉间，在每一次呼吸中与森林共鸣。',
+                    logo: 'forest.png',
+                    bgColor: '#e8f0e4', 
+                    deities: [
+                        { name: '阿尔忒弥斯', origin: '希腊·狩猎与森林', img: '阿尔忒弥斯.png', desc: `野兽的女主人与荒野的女领主，狩猎与丰产之神，大陆和岛屿的保护神。节日：每个月的第六天。喜好：月光石，珍珠，冷杉，苹果，羊肉，蜂蜜蛋糕，净水，以及与鹿有关的物品，精美的弓箭，银色与白色。喜欢数字6` },
+                        { name: '帕查玛玛', origin: '印加·大地母亲', img: '帕查玛玛.png', desc: `南美神话中的大地母亲，生命的提供者与接受者。我们是一体的，由看不见的根基相连。就如同树，每一棵树都以不同的方式生长，但彼此却和支撑万物的地底力量有着千丝万缕的联系。`},
+                        { name: '奥舒恩', origin: '约鲁巴·河流女神', img: '奥舒恩.png', desc: `常与尼日利亚的奥顺河联系在一起，这条河被视为神圣之地，是她的信徒们主要的朝圣地。信徒们会供奉蜂蜜、甜食、水果以及其他反映她滋养与甜美本质的物品。`  }
+                    ],
+                    decoration: `<svg viewBox="0 0 80 80" width="80" height="80"><polygon points="40,8 55,40 45,40 60,72 20,72 35,40 25,40" fill="#6b8f5e" opacity="0.8"/><rect x="36" y="72" width="8" height="8" fill="#5a7a4a"/></svg>`
+                },
+                desert: {
+                    name: '沙漠', subtitle: '丰饶之女',
+                    description: '你像沙漠中的绿洲，充满生命力和感染力。你的魔法是热情的、明亮的，能在最干涸的地方创造生机。',
+                    logo: 'desert.png',
+                    bgColor: '#faf3e6',
+                    deities: [
+                        { name: '伊西斯', origin: '埃及·魔法与生命', img: '伊西斯.png', desc: `创生自然之母，死亡与重生秘仪代表，智慧女神。张开翅膀能够引领人们穿越黑暗恐惧带来重生的力量`},
+                        { name: '哈索尔', origin: '埃及·爱与音乐', img: '哈索尔.png', desc: `天空、爱情、美、音乐、舞蹈、母性以及女性的守护神。生命的美好与欢庆，在庆典、音乐和舞蹈场景她的身影无处不在。`},
+                        { name: '佩莱', origin: '波利尼西亚·火山女神', img: '佩莱.png' , desc: `谁的意志在支配世界，谁的话语在生效。对自己诚实，什么事你真的欲望？拥抱你的热情`}
+                    ],
+                    decoration: `<svg viewBox="0 0 80 80" width="80" height="80"><path d="M10,70 Q20,45 40,55 Q60,65 70,40" stroke="#c8923f" stroke-width="3" fill="none"/><path d="M25,70 Q35,50 50,58 Q65,68 75,50" stroke="#c8923f" stroke-width="2" fill="none"/></svg>`
+                },
+                snow: {
+                    name: '雪原', subtitle: '炉边诗人',
+                    description: '你是漫长黑夜中的那盏灯。你的魔法是温柔的、持久的，像炉火一样不熄。',
+                    logo: 'snow.png',
+                    bgColor: '#edf1f7',
+                    deities: [
+                        { name: '赫斯提亚', origin: '希腊·炉灶与家庭', img: '赫斯提亚.png', desc: `圣火的女神。掌管着每个家庭的炉灶与家事，为家宅带来富裕的食物与宁静，同时，女神亦管理着城邦的心脏。` },
+                        { name: '斯卡蒂', origin: '北欧·冬季与山野', img: '斯卡蒂.png', desc: `冬山与雪原的女神，独行于风雪中的猎人，传授坚韧与独立的品格。` },
+                        { name: '芙蕾雅', origin: '北欧·爱与魔法', img: '芙蕾雅.png', desc: `爱情、美丽与魔法的女神，懂得以荆棘编织王冠，以泪水淬炼黄金。`  }
+                    ],
+                    decoration: `<svg viewBox="0 0 80 80" width="80" height="80"><circle cx="40" cy="50" r="15" fill="#8fa4c0"/><circle cx="30" cy="40" r="8" fill="#8fa4c0"/><circle cx="50" cy="42" r="8" fill="#8fa4c0"/><circle cx="40" cy="30" r="6" fill="#8fa4c0"/></svg>`
+                },
+                ocean: {
+                    name: '海洋', subtitle: '浪屿之歌',
+                    description: '你与潮汐同频，懂得进退的智慧。你的魔法是流动的、适应万变的，像水一样无形却有力量。',
+                    logo: 'ocean.png',
+                    bgColor: '#e6f0f4',
+                    deities: [
+                        { name: '耶玛亚', origin: '约鲁巴·海洋母亲', img: '耶玛亚.png', desc: `众海洋的母亲，生命的摇篮，她的拥抱能冲刷一切痛苦，带来治愈与新的开始。` },
+                        { name: '安菲特里忒', origin: '希腊·海洋之后', img: '安菲特里忒.png', desc: `海王波塞冬的妻子，深海暗流的掌控者，平静风浪亦能掀起巨涛。` },
+                        { name: '塞德娜', origin: '因纽特·深海女神', img: '塞德娜.png', desc: `极地深海的母神，所有海洋生物的源头，教会人们在严酷环境中生存与敬畏。` }
+                    ],
+                    decoration: `<svg viewBox="0 0 80 80" width="80" height="80"><path d="M10,50 Q25,40 40,50 T70,50 T100,50" fill="none" stroke="#5b8a9e" stroke-width="3"/><path d="M15,60 Q30,50 45,60 T75,60" fill="none" stroke="#5b8a9e" stroke-width="2"/></svg>`
+                }
+            };
+            // 符咒符号库
+            const sigils = ['🍃 叶语', '🔥 余烬', '❄️ 冰晶', '🌊 潮声', '🕯️ 烛火', '🪶 羽痕', '🔮 晶辉', '🌙 月轮', '⭐ 星尘', '🪨 磐石'];
+
+            let currentPage = 'cover';
+            let currentQuestionIndex = 0;
+            const answers = new Array(questions.length).fill(null);
+            let userName = '';
+            const mainContainer = document.getElementById('mainContainer');
+
+            function renderCover() {
+                currentPage = 'cover';
+                mainContainer.innerHTML = `
+                <div class="cover-card">
+                    <img class="cover-logo" src="logo-placeholder.png" alt="乌鸫组 logo">
+                    <div class="cover-meta">企划方：乌鸫组　|　制作人：塞勒涅</div>
+                    <div class="ornament-line"></div>
+                    <div class="cover-question">你的魔力归属于</div>
+                    <div class="name-input-wrap">
+                        <label class="name-input-label">来访者，请签下你的名字。</label>
+                        <input type="text" class="name-input" id="nameInput" placeholder="你的名字" maxlength="20">
+                    </div>
+                    <button class="btn-start" id="startBtn">开始测试</button>
+                </div>`;
+
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    userName = document.getElementById('nameInput').value.trim() || '来访者';
+                    currentQuestionIndex = 0;
+                    answers.fill(null);
+                    renderTest();
+                });
+            }
+
+            function renderTest() {
+                currentPage = 'test';
+                mainContainer.innerHTML = `
+                <div class="header">
+                    <div class="geometric-moon">
+                        <div class="moon-diamond"></div><div class="moon-ring"></div><div class="moon-dot"></div>
+                    </div>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar"></div></div>
+                    <span class="progress-text" id="progressText">0/16</span>
+                </div>
+                <div id="questionArea"></div>
+                <div class="dots-indicator" id="dotsIndicator"></div>
+                <div class="nav-buttons" id="navButtons">
+                    <button class="nav-btn" id="prevBtn" disabled>← 上一题</button>
+                    <button class="nav-btn primary" id="nextBtn">下一题 →</button>
+                </div>`;
+                document.getElementById('prevBtn').addEventListener('click', prevQuestion);
+                document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+                updateQuestionDisplay();
+                updateProgressAndDots();
+                updateNavButtons();
+            }
+
+            function updateQuestionDisplay() {
+                const area = document.getElementById('questionArea');
+                if (!area) return;
+                const q = questions[currentQuestionIndex];
+                if (!q) return;
+                const selected = answers[currentQuestionIndex];
+                let html = `<div class="question-card">
+                    <div class="question-number">第 ${q.id} 题 / ${questions.length}</div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="options-grid">`;
+                q.options.forEach(opt => {
+                    html += `<button class="option-btn${selected === opt.realm ? ' selected' : ''}" data-realm="${opt.realm}">
+                        <img class="option-icon" src="option-${opt.letter.toLowerCase()}.png" alt="${opt.letter}" onerror="this.style.display='none'">
+                        <span>${opt.text}</span>
+                    </button>`;
+                });
+                html += `</div></div>`;
+                area.innerHTML = html;
+                area.querySelectorAll('.option-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        answers[currentQuestionIndex] = this.dataset.realm;
+                        updateQuestionHighlight();
+                        updateProgressAndDots();
+                        updateNavButtons();
+                        if (currentQuestionIndex < questions.length - 1) {
+                            setTimeout(() => {
+                                currentQuestionIndex++;
+                                updateQuestionDisplay();
+                                updateProgressAndDots();
+                                updateNavButtons();
+                            }, 300);
+                        }
+                    });
+                });
+            }
+
+            function updateQuestionHighlight() {
+                const sel = answers[currentQuestionIndex];
+                document.querySelectorAll('.option-btn').forEach(b => b.classList.toggle('selected', b.dataset.realm === sel));
+            }
+
+            function updateProgressAndDots() {
+                const answered = answers.filter(a => a !== null).length;
+                const bar = document.getElementById('progressBar');
+                const text = document.getElementById('progressText');
+                if (bar) bar.style.width = (answered / questions.length * 100) + '%';
+                if (text) text.textContent = answered + '/' + questions.length;
+                const dots = document.getElementById('dotsIndicator');
+                if (dots) {
+                    dots.innerHTML = '';
+                    for (let i = 0; i < questions.length; i++) {
+                        const dot = document.createElement('span');
+                        dot.className = 'dot' + (i === currentQuestionIndex ? ' active' : '') + (answers[i] !== null ? ' answered' : '');
+                        dot.addEventListener('click', () => {
+                            currentQuestionIndex = i;
+                            updateQuestionDisplay();
+                            updateProgressAndDots();
+                            updateNavButtons();
+                        });
+                        dots.appendChild(dot);
+                    }
+                }
+            }
+
+            function updateNavButtons() {
+                const prev = document.getElementById('prevBtn');
+                const next = document.getElementById('nextBtn');
+                if (!prev || !next) return;
+                prev.disabled = currentQuestionIndex === 0;
+                const allDone = answers.every(a => a !== null);
+                if (currentQuestionIndex === questions.length - 1) {
+                    next.textContent = allDone ? '我已经想好了' : '请先回答本题';
+                    next.classList.toggle('primary', !!allDone);
+                } else {
+                    next.textContent = '下一题 →';
+                    next.classList.add('primary');
+                }
+            }
+
+            function prevQuestion() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    updateQuestionDisplay();
+                    updateProgressAndDots();
+                    updateNavButtons();
+                }
+            }
+
+            function nextQuestion() {
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    updateQuestionDisplay();
+                    updateProgressAndDots();
+                    updateNavButtons();
+                } else {
+                    if (answers.every(a => a !== null)) {
+                        showTransitionAndResult();
+                    } else {
+                        const btn = document.getElementById('nextBtn');
+                        if (btn) { btn.style.animation = 'shake 0.5s'; setTimeout(() => btn.style.animation = '', 500); }
+                    }
+                }
+            }
+
+            function showTransitionAndResult() {
+                currentPage = 'transition';
+                mainContainer.innerHTML = `
+                <div class="transition-card">
+                    <div class="transition-icon">🌙</div>
+                    <div class="transition-text">${userName}，请闭上眼睛</div>
+                    <div style="color:#5a4a3a; margin:4px 0;">感受魔力之源</div>
+                    <div class="transition-countdown" id="countdown">3</div>
+                </div>`;
+                let count = 3;
+                const cd = document.getElementById('countdown');
+                const timer = setInterval(() => {
+                    count--;
+                    if (count <= 0) {
+                        clearInterval(timer);
+                        showResult();
+                    } else {
+                        cd.textContent = count;
+                    }
+                }, 1000);
+            }
+
+            function selectDeityByScores(scores) {
+                const realms = ['forest','desert','snow','ocean'];
+                const max = Math.max(...realms.map(r => scores[r]));
+                const top = realms.filter(r => scores[r] === max);
+                const main = top[Math.floor(Math.random() * top.length)];
+                const others = realms.filter(r => r !== main);
+                const secondScore = Math.max(...others.map(r => scores[r]));
+                const secList = others.filter(r => scores[r] === secondScore);
+                const second = secList[Math.floor(Math.random() * secList.length)];
+                const minScore = Math.min(...realms.map(r => scores[r]));
+                const minList = realms.filter(r => scores[r] === minScore);
+                const min = minList[Math.floor(Math.random() * minList.length)];
+                const mapping = {
+                    forest:{desert:0,snow:1,ocean:2},
+                    desert:{forest:0,snow:1,ocean:2},
+                    snow:{forest:0,desert:1,ocean:2},
+                    ocean:{forest:0,desert:1,snow:2}
+                };
+                const deityIdx = mapping[main]?.[second] ?? 0;
+                return { mainRealm: main, deity: realmData[main].deities[deityIdx], secondRealm: second, minRealm: min };
+            }
+
+            function showResult() {
+                const scores = { forest:0, desert:0, snow:0, ocean:0 };
+                answers.forEach(r => { if (r) scores[r]++; });
+                const { mainRealm, deity, secondRealm, minRealm } = selectDeityByScores(scores);
+                const realm = realmData[mainRealm];
+                const secondData = realmData[secondRealm];
+                const minData = realmData[minRealm];
+                const sigil = sigils[Math.floor(Math.random() * sigils.length)];
+
+                document.body.style.background = realm.bgColor;  // 按阵营换背景
+                mainContainer.innerHTML = `
+                <div class="result-scroll">
+                    <!-- 引导面板 -->
+                    <div class="result-panel" style="background:${realm.bgColor}; position:relative;">
+                        <div class="panel-decoration" style="top:10px; right:10px;">${realm.decoration}</div>
+                        <div style="font-size:0.85rem; color:#5a4a3a; margin-bottom:10px;">${userName}，根据你的选择和内心的呼唤，我们一致认为</div>
+                        <div class="panel-title" style="margin:10px 0;">你是 <strong>${realm.name}</strong> 的东道主小女巫</div>
+                        <div style="margin-bottom:12px; color:#7a6040;">请你入座吧</div>
+                        <!-- 阵营logo -->
+                        <div class="panel-logo-placeholder"><img src="${realm.logo}" alt="${realm.name}"></div>
+                    </div>
+
+                    <!-- 女神头像与符咒 -->
+                    <div class="result-panel" style="background:${realm.bgColor}; position:relative;">
+                        <div class="panel-decoration" style="bottom:10px; left:10px;">${realm.decoration}</div>
+                        <img class="deity-img-full" src="${deity.img}" alt="${deity.name}" onerror="this.style.display='none'">
+                        <div style="font-weight:bold; font-size:1.2rem;">${deity.name}</div>
+                        <div style="color:#7a6040; margin-bottom:12px;">${deity.origin}</div>
+                        <div style="font-size:0.9rem; color:#3e3024;">今日你的适配符号是 <strong>${sigil}</strong></div>
+                        <div style="font-size:0.7rem; color:#8a7050;">只有第一次是最准的哦。</div>
+                    </div>
+
+                    <!-- 相性与丰容 -->
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                        <div class="result-panel" style="background:${realm.bgColor};">
+                            <div style="font-size:0.8rem; color:#8a7050;">相性最好</div>
+                            <div style="font-weight:bold;">${secondData.name}</div>
+                            <div class="panel-logo-placeholder" style="width:60px;height:60px;"><img src="${secondData.logo}"></div>
+                        </div>
+                        <div class="result-panel" style="background:${realm.bgColor};">
+                            <div style="font-size:0.8rem; color:#8a7050;">丰容最好</div>
+                            <div style="font-weight:bold;">${minData.name}</div>
+                            <div class="panel-logo-placeholder" style="width:60px;height:60px;"><img src="${minData.logo}"></div>
+                        </div>
+                    </div>
+
+                    <button class="restart-btn" id="restartBtn">⟳ 重新测试</button>
+                </div>`;
+
+                document.getElementById('restartBtn').addEventListener('click', () => {
+                    document.body.style.background = 'var(--bg-body)';
+                    renderCover();
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (currentPage === 'test') {
+                    if (e.key === 'ArrowLeft') { e.preventDefault(); prevQuestion(); }
+                    else if (e.key === 'ArrowRight') { e.preventDefault(); nextQuestion(); }
+                    else if (e.key >= '1' && e.key <= '4') {
+                        e.preventDefault();
+                        const idx = parseInt(e.key)-1;
+                        const q = questions[currentQuestionIndex];
+                        if (q?.options?.[idx]) {
+                            answers[currentQuestionIndex] = q.options[idx].realm;
+                            updateQuestionHighlight();
+                            updateProgressAndDots();
+                            updateNavButtons();
+                            if (currentQuestionIndex < questions.length-1) {
+                                setTimeout(() => { currentQuestionIndex++; updateQuestionDisplay(); updateProgressAndDots(); updateNavButtons(); }, 300);
+                            }
+                        }
+                    }
+                }
+            });
+
+            renderCover();
+        })();
+    </script>
+</body>
+</html>
