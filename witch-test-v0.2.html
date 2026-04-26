@@ -28,8 +28,9 @@
 
         /* 封面卡片 */
         .cover-card { background: var(--surface); border-radius: 24px; padding: 48px 32px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .cover-logo { width: 320px; height: 160px; margin: 0 auto 12px; display: block; opacity: 0.9;}
+        .cover-logo { width: 120px; height: 80px; margin: 0 auto 12px; display: block; opacity: 0.9;}
         .cover-meta { font-size: 0.8rem; color: #888; font-family: var(--font-sans); }
+	.divider-line { width: 60px; height: 1px; background: linear-gradient(to right, transparent, #868c4a, transparent); margin: 0 auto; }
         .cover-question { font-size: 2rem; color: var(--text-heading); margin: 24px 0; }
         .name-input { width: 240px; padding: 12px; border: 1px solid #ddd; border-radius: 30px; text-align: center; font-family: var(--font-serif); font-size: 1rem; margin-bottom: 20px;}
         .btn-start { padding: 14px 44px; border-radius: 40px; background: var(--text-heading); color: #fff; border: none; font-family: var(--font-sans); cursor: pointer; }
@@ -469,7 +470,7 @@
                 mainContainer.innerHTML = `
                 <div class="cover-card">
                     <img src="logo-placeholder.png" class="cover-logo">
-                    <div style="font-size:0.8rem; letter-spacing:3px; color:#888;">企划：乌鸫组 · 制作人：塞勒涅 & 塞西尔</div>
+                    <div style="font-size:0.8rem; letter-spacing:3px; color:#888;">企划：乌鸫组 ·  &nbsp; | &nbsp; 制作人：塞勒涅 & 塞西尔</div>
                     <div class="cover-question">你的魔力归属于</div>
                     <input type="text" class="name-input" id="nameInput" placeholder="来访者，请签下你的名字。" maxlength="20">
                     <br><button class="btn-start" id="startBtn">开始测试</button>
